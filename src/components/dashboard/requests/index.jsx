@@ -18,15 +18,13 @@ const Requests = () => {
 
   useEffect(() => {
     getAllRequests();
-  }, []);
+  }, [refreash]);
   return (
     <div className="my-[20px] grid grid-cols-3 gap-[20px]">
-      
-          {allRequests?.map((req) => (
-            <RequestCard key={req._id} {...{ req, refreash, setRefreash }} />
-          ))}
-          
-     
+      {!allRequests && <Empty message="Not found" />}
+      {allRequests?.map((req) => (
+        <RequestCard key={req._id} {...{ req, refreash, setRefreash }} />
+      ))}
     </div>
   );
 };

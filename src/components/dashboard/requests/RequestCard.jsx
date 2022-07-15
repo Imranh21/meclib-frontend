@@ -8,8 +8,7 @@ const RequestCard = ({ req, setRefreash, refreash }) => {
   const [book, setBook] = useState({});
   const [userName, setUserName] = useState("");
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const getBook = async () => {
     const {
@@ -30,35 +29,48 @@ const RequestCard = ({ req, setRefreash, refreash }) => {
     getUser();
   }, []);
 
-
   const approveHandler = async () => {
     const { data } = await Axios.post("/approve-book", {
       requestId: req?._id,
       userId: user?.id,
     });
-    setRefreash(prev => !prev)
+    setRefreash(true);
   };
-  
+
   const deleteHandler = async () => {
-    const { data } = await Axios.delete(`/delete-request/${req._id}?bookid=${book._id}`);
-    console.log(data)
-  }
+    const { data } = await Axios.delete(
+      `/delete-request/${req._id}?bookid=${book._id}`
+    );
+    setRefreash(true);
+  };
 
   const profileHandler = () => {
-    navigate("/profile")
-  }
+    navigate("/profile");
+  };
 
   const bookHandler = () => {
-    navigate(`/book/${req.bookId}`)
-  }
+    navigate(`/book/${req.bookId}`);
+  };
 
   return (
     <>
-    {!req.isApprove &&
+      {!req.isApprove && (
         <div className="mb-[20px] bg-white py-[10px] px-[20px] shadow-lg">
           <div className="">
             <p className="text-[18px] mb-[6px]">
-              <span onClick={profileHandler} className="text-sky-600 font-bold cursor-pointer">{userName}</span> is asking for <span onClick={bookHandler} className="font-bold text-sky-600 cursor-pointer">{book.name}</span>
+              <span
+                onClick={profileHandler}
+                className="text-sky-600 font-bold cursor-pointer"
+              >
+                {userName}
+              </span>{" "}
+              is asking for{" "}
+              <span
+                onClick={bookHandler}
+                className="font-bold text-sky-600 cursor-pointer"
+              >
+                {book.name}
+              </span>
             </p>
             <div>
               <button
@@ -67,14 +79,16 @@ const RequestCard = ({ req, setRefreash, refreash }) => {
               >
                 Approve
               </button>
-              <button onClick={deleteHandler} className="py-[6px] px-[10px] ml-[10px] text-red-600 bg-red-100 rounded">
+              <button
+                onClick={deleteHandler}
+                className="py-[6px] px-[10px] ml-[10px] text-red-600 bg-red-100 rounded"
+              >
                 Delete
               </button>
-              
             </div>
           </div>
-        </div>}
-     
+        </div>
+      )}
     </>
   );
 };

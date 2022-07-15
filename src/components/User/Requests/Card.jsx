@@ -4,25 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../axios/axios";
 import BookService from "../../../services/BookService";
 
-const Card = ({ request }) => {
+const Card = ({ request, reload, setReload }) => {
   const [book, setBook] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  // console.log(request)
-
-  // const getBook = async () => {
-  //     const {data} = await BookService.getABook(request.bookId)
-  //     console.log(data)
-  // }
 
   const getBook = async () => {
     const {
       data: { data },
     } = await Axios.get(`/book/${request.bookId}`);
     setBook(data);
-    console.log(data);
   };
   const deleteHandler = async () => {
     setIsLoading(true);
@@ -30,6 +22,7 @@ const Card = ({ request }) => {
       `/delete-request/${request._id}?bookid=${book._id}`
     );
     setIsLoading(false);
+    setReload(true);
   };
 
   useEffect(() => {
@@ -73,12 +66,24 @@ const Card = ({ request }) => {
               />
             </svg>
           ) : (
-            <div
-              onClick={deleteHandler}
-              className="py-[6px] text-center cursor-pointer px-[10px] text-red-600 bg-red-100 rounded"
-            >
-              Delete Request
-            </div>
+            <>
+              {request.isSolve && (
+                <div
+                  onClick={deleteHandler}
+                  className="py-[6px] text-center cursor-pointer px-[10px] text-red-600 bg-red-100 rounded"
+                >
+                  Settled
+                </div>
+              )}
+              {request.isApprove === false && (
+                <div
+                  onClick={deleteHandler}
+                  className="py-[6px] text-center cursor-pointer px-[10px] text-red-600 bg-red-100 rounded"
+                >
+                  Delete request
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

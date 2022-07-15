@@ -3,39 +3,40 @@ import React, { useContext, useState } from "react";
 
 import TabBody from "../../components/dashboard/tabs/TabBody";
 import { MeclibContext } from "../../context/AppContext";
-import Tab from "../../components/tab"
-import UserRequests from "../../components/User/Requests";
+import Tab from "../../components/tab";
+import History from "../../components/User/Requests/History";
 import { useEffect } from "react";
 import { Axios } from "../../axios/axios";
-import Tabs from '../../components/core/Tabs'
+import Tabs from "../../components/core/Tabs";
+import PendingRequest from "../../components/User/Requests/PendingRequest";
 
-const tabsArr = ["Requests", "Approved"]
+const tabsArr = ["History", "Pending request"];
 
 const Profile = () => {
   const { user } = useContext(MeclibContext);
-  const [activeTab, setActiveTab] = useState(tabsArr[0])
-  const [requests, setRequests]= useState([])
+  const [activeTab, setActiveTab] = useState(tabsArr[0]);
+  const [requests, setRequests] = useState([]);
 
-//   const getUserRequest = async () => {
-//     // setIsLoading(true)
-//     try{
-//         const {data} = await Axios.get(`/user-requests?userid=${user.id}`)
-//         console.log(data)
-//         setRequests(data)
-//     }
-//     catch(err){
-//         console.log(err.message)
-//     }
-//     // setIsLoading(false)
-// }
+  //   const getUserRequest = async () => {
+  //     // setIsLoading(true)
+  //     try{
+  //         const {data} = await Axios.get(`/user-requests?userid=${user.id}`)
+  //         console.log(data)
+  //         setRequests(data)
+  //     }
+  //     catch(err){
+  //         console.log(err.message)
+  //     }
+  //     // setIsLoading(false)
+  // }
 
-useEffect(() => {
-  // getUserRequest()
-}, [])
-  
+  useEffect(() => {
+    // getUserRequest()
+  }, []);
+
   const handleActiveTab = (val) => {
-    setActiveTab(val)
-  }
+    setActiveTab(val);
+  };
   return (
     <div className="w-[100%]">
       <div className="w-[90%] m-auto sm:w-[80%]">
@@ -49,12 +50,12 @@ useEffect(() => {
 
         <div className="">
           {/* <Tabs {...{handleActiveTab, tabs, activeTab}}/> */}
-          <Tabs {...{tabsArr, activeTab, handleActiveTab}}/>
-          <Tab {...{activeTab, tabName: "Requests"}}>
-            <UserRequests/>
+          <Tabs {...{ tabsArr, activeTab, handleActiveTab }} />
+          <Tab {...{ activeTab, tabName: "History" }}>
+            <History />
           </Tab>
-          <Tab {...{activeTab, tabName: "Approved"}}>
-            <h1>app</h1>
+          <Tab {...{ activeTab, tabName: "Pending request" }}>
+            <PendingRequest />
           </Tab>
         </div>
       </div>

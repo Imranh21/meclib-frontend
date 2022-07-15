@@ -1,39 +1,44 @@
-import jwt_decode from 'jwt-decode';
-import React, {useContext, useState} from 'react'
-import { useNavigate } from 'react-router-dom';
-import { Axios } from '../../axios/axios';
-import { MeclibContext } from '../../context/AppContext';
+import jwt_decode from "jwt-decode";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Axios } from "../../axios/axios";
+import { MeclibContext } from "../../context/AppContext";
 
 const SignupForm = () => {
-  const {setUser} = useContext(MeclibContext)
+  const { setUser } = useContext(MeclibContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [IsError, setIsError] = useState(false);
+  const [IsError, setIsError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
-    e.preventDefault()
-    const {data} = await Axios.post("/auth/registration", {
+    e.preventDefault();
+    const { data } = await Axios.post("/auth/registration", {
       name,
       email,
-      password
-    })
+      password,
+    });
 
-    if(data.token) {
-      localStorage.setItem("accessToken", data.token)
+    if (data?.status === 406) {
+      setIsError(data.message);
+    } else {
+      if (data.token) {
+        localStorage.setItem("accessToken", data.token);
+      }
+      navigate("/");
+      const decoded = jwt_decode(data.token);
+      setUser(decoded);
     }
-    navigate("/")
-    const decoded = jwt_decode(data.token);
-    setUser(decoded);
-    
-    // setIsError(res.data.message)
-  }
+  };
 
   return (
     <div className="w-[100%] h-screen grid place-items-center">
-      <form onSubmit={submitHandler} className="w-[80%] p-[20px] bg-white sm:w-[50%] md:w-[30%]">
+      <form
+        onSubmit={submitHandler}
+        className="w-[80%] p-[20px] bg-white sm:w-[50%] md:w-[30%]"
+      >
         <h1 className="text-slate-600 text-2xl mb-[20px] uppercase font-black">
           Signup to <span className="text-green-400">MecLib</span>
         </h1>
@@ -45,7 +50,7 @@ const SignupForm = () => {
           <input
             type="text"
             className="w-100 py-[8px] px-[10px] bg-slate-100 rounded-md"
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="flex flex-col mb-[20px]">
@@ -55,7 +60,7 @@ const SignupForm = () => {
           <input
             type="text"
             className="w-100 py-[8px] px-[10px] bg-slate-100 rounded-md"
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="flex flex-col mb-[20px]">
@@ -65,12 +70,15 @@ const SignupForm = () => {
           <input
             type="password"
             className="w-100 py-[8px] px-[10px] bg-slate-100 rounded-md"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {IsError && <p className="text-red-600">{IsError}</p>}
 
-        <button type="submit" className="bg-blue-500 w-[100%] py-[8px] mt-[10px] text-gray-100 rounded-md">
+        <button
+          type="submit"
+          className="bg-blue-500 w-[100%] py-[8px] mt-[10px] text-gray-100 rounded-md"
+        >
           Sign up
         </button>
 
@@ -87,6 +95,6 @@ const SignupForm = () => {
       </form>
     </div>
   );
-}
+};
 
-export default SignupForm
+export default SignupForm;

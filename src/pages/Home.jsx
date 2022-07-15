@@ -4,10 +4,10 @@ import Hero from '../components/hero'
 import { MeclibContext } from '../context/AppContext'
 
 const Home = () => {
-    const {getAllBooks} = useContext(MeclibContext)
-    useEffect(() => {
-        getAllBooks()
-    }, [])
+    // const {getAllBooks} = useContext(MeclibContext)
+    // useEffect(() => {
+    //     getAllBooks()
+    // }, [])
   return (
     <div className='w-[100%]'>
         <Hero />

@@ -5,6 +5,7 @@ import { MeclibContext } from "./context/AppContext";
 import Navbar from "./layout/Navbar";
 import AdminRoutes from "./pages/admin";
 import Dashboard from "./pages/admin/Dashboard";
+import UpdateBook from "./pages/admin/UpdateBook";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -17,11 +18,11 @@ function App() {
   // const [user, setUser] = useState()
   const { isAuth, getAllBooks, user, isAuthenticate, allBooks } =
     useContext(MeclibContext);
-  useEffect(() => {
-    getAllBooks();
-    // const verifiedUser = verifyToken()
-    // setUser(verifiedUser)
-  }, []);
+  // useEffect(() => {
+  //   getAllBooks();
+  //   // const verifiedUser = verifyToken()
+  //   // setUser(verifiedUser)
+  // }, []);
 
   return (
     <div className="">
@@ -38,6 +39,7 @@ function App() {
         </Route>
         <Route element={<AdminRoutes />}>
           <Route path="/admin" element={<Dashboard />} />
+          <Route path="/book/update/:id" element={<UpdateBook />} />
         </Route>
       </Routes>
     </div>

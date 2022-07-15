@@ -15,18 +15,24 @@ const BookCard = ({ book }) => {
   const toggleMenu = () => {
     setShowMenu((prev) => !prev);
   };
-  return (
-    <div
 
-      class="flex flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl  "
-    >
+  const goAndUpdateBook = (id) => {
+    navigate(`/book/update/${id}`);
+  };
+  return (
+    <div class="flex relative flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl  ">
       <HiOutlineDotsCircleHorizontal
         className="absolute top-[6px] right-[6px]"
         onClick={toggleMenu}
       />
       {showMenu && (
         <div className="absolute top-[20px] right-[20px]">
-          <BookDropdownMenu />
+          <div className="w-[120px] p-[10px] bg-gray-50 absolute top-0 right-0 shadow-2xl rounded-md">
+            <ul className="">
+              <li onClick={() => goAndUpdateBook(book._id)}>Edit book</li>
+              <li>Delete book</li>
+            </ul>
+          </div>
         </div>
       )}
       <img
@@ -34,7 +40,10 @@ const BookCard = ({ book }) => {
         src={book.bookImageURL}
         alt=""
       />
-      <div onClick={bookHandler} class="flex flex-col cursor-pointer justify-between p-4 leading-normal">
+      <div
+        onClick={bookHandler}
+        class="flex flex-col cursor-pointer justify-between p-4 leading-normal"
+      >
         <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 ">
           {book.name}
         </h5>

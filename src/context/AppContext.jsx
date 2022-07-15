@@ -11,6 +11,7 @@ const AppContext = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [accessToken, setAccessToken] = useState("");
   const [allBooks, setAllBooks] = useState([]);
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -21,7 +22,6 @@ const AppContext = ({ children }) => {
       isAuthenticate();
     }
   }, []);
-
 
   const isAuthenticate = () => {
     const token = localStorage.getItem("accessToken");
@@ -34,33 +34,41 @@ const AppContext = ({ children }) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       const decoded = jwt_decode(token);
-      return decoded.isAdmin || decoded.isSuperAdmin ? true : false
+      return decoded.isAdmin || decoded.isSuperAdmin ? true : false;
     }
-  }
-
-  
+  };
 
   const logIn = async (credentials) => {
     const { email, password } = credentials;
-    const { data } = await Axios.post("/auth/login", {
-      email,
-      password,
-    });
+    try {
+      const { data } = await Axios.post("/auth/login", {
+        email,
+        password,
+      });
 
-    if (data.token) {
-      localStorage.setItem("accessToken", data.token);
-    }
+      if (data?.status === 401) {
+        setLoginError(data.message);
+      } else {
+        if (data?.token) {
+          localStorage.setItem("accessToken", data.token);
+        }
 
-    const admin = isAdminHandler()
-    if(admin){
-      navigate("/admin");
-    } else {
-      navigate("/profile");
+        const admin = isAdminHandler();
+        if (admin) {
+          navigate("/admin");
+        } else {
+          navigate("/profile");
+        }
+
+        const decoded = jwt_decode(data.token);
+        setUser(decoded);
+        isAuthenticate();
+      }
+
+      console.log(loginError);
+    } catch (err) {
+      console.log(err);
     }
-    
-    const decoded = jwt_decode(data.token);
-    setUser(decoded);
-    isAuthenticate();
   };
 
   const logOut = useCallback(() => {
@@ -69,12 +77,12 @@ const AppContext = ({ children }) => {
     navigate("/");
   }, []);
 
-  const getAllBooks = async () => {
-    const {
-      data: { data },
-    } = await Axios.get("/all-books");
-    setAllBooks(data);
-  };
+  // const getAllBooks = async () => {
+  //   const {
+  //     data: { data },
+  //   } = await Axios.get("/all-books");
+  //   setAllBooks(data);
+  // };
 
   return (
     <MeclibContext.Provider
@@ -86,9 +94,9 @@ const AppContext = ({ children }) => {
         setIsAuth,
         isAuth,
         allBooks,
-        getAllBooks,
         isAuthenticate,
-        isAdminHandler
+        isAdminHandler,
+        loginError,
       }}
     >
       {children}
