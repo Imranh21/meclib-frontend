@@ -4,6 +4,7 @@ import BookCard from "./BookCard";
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const getAllBooks = async () => {
     const {
@@ -14,12 +15,12 @@ const BookList = () => {
   };
   useEffect(() => {
     getAllBooks();
-  }, []);
+  }, [reload]);
   return (
     <div className="grid grid-cols-1 py-[2rem] sm:grid-cols-3 gap-[20px]">
       {!books && <Empty message="Not found" />}
       {books.map((book) => (
-        <BookCard {...{ book }} />
+        <BookCard {...{ book, setReload }} />
       ))}
     </div>
   );

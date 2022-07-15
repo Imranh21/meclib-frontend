@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { useState } from "react";
 import BookDropdownMenu from "../../others/BookDropdownMenu";
+import ToastService from "../../../services/ToastService";
+import { Axios } from "../../../axios/axios";
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book, setReload }) => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
 
@@ -19,6 +21,15 @@ const BookCard = ({ book }) => {
   const goAndUpdateBook = (id) => {
     navigate(`/book/update/${id}`);
   };
+
+  const deleteBook = async () => {
+    try {
+      const res = await Axios.delete(`/delete-book/${book._id}`);
+      setReload((prev) => !prev);
+    } catch (err) {
+      ToastService.error(err.message);
+    }
+  };
   return (
     <div class="flex relative flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl  ">
       <HiOutlineDotsCircleHorizontal
@@ -30,7 +41,7 @@ const BookCard = ({ book }) => {
           <div className="w-[120px] p-[10px] bg-gray-50 absolute top-0 right-0 shadow-2xl rounded-md">
             <ul className="">
               <li onClick={() => goAndUpdateBook(book._id)}>Edit book</li>
-              <li>Delete book</li>
+              <li onClick={() => deleteBook(book._id)}>Delete book</li>
             </ul>
           </div>
         </div>

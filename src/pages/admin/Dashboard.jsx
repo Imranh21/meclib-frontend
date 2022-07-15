@@ -5,7 +5,7 @@ import BookForm from "../../components/dashboard/books";
 import TabBody from "../../components/dashboard/tabs/TabBody";
 import Modal from "../../components/modal";
 
-const tabsArr = ["Requests", "BookList", "Users"];
+const tabsArr = ["Requests", "Approved", "BookList", "Users"];
 
 const Dashboard = () => {
   const [isModal, setIsModal] = useState();

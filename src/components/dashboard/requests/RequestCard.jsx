@@ -34,14 +34,14 @@ const RequestCard = ({ req, setRefreash, refreash }) => {
       requestId: req?._id,
       userId: user?.id,
     });
-    setRefreash(true);
+    setRefreash((prev) => !prev);
   };
 
   const deleteHandler = async () => {
     const { data } = await Axios.delete(
       `/delete-request/${req._id}?bookid=${book._id}`
     );
-    setRefreash(true);
+    setRefreash((prev) => !prev);
   };
 
   const profileHandler = () => {
