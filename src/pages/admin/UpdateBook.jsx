@@ -61,7 +61,7 @@ const UpdateBook = () => {
   };
   const updateBook = async (e) => {
     e.preventDefault();
-    handleUploadImage();
+    // handleUploadImage();
 
     const authorsArr = stringToArray(authors);
     const bookCategoriesArr = stringToArray(bookCategories);

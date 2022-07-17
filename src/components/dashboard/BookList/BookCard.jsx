@@ -33,15 +33,25 @@ const BookCard = ({ book, setReload }) => {
   return (
     <div class="flex relative flex-col items-center rounded-lg border shadow-md md:flex-row md:max-w-xl  ">
       <HiOutlineDotsCircleHorizontal
-        className="absolute top-[6px] right-[6px]"
+        className="text-2xl cursor-pointer absolute top-[6px] right-[6px]"
         onClick={toggleMenu}
       />
       {showMenu && (
-        <div className="absolute top-[20px] right-[20px]">
-          <div className="w-[120px] p-[10px] bg-gray-50 absolute top-0 right-0 shadow-2xl rounded-md">
+        <div className="absolute top-[30px] right-[20px]">
+          <div className="w-[140px] p-[10px] bg-gray-50 absolute top-0 right-0 shadow-2xl rounded-md">
             <ul className="">
-              <li onClick={() => goAndUpdateBook(book._id)}>Edit book</li>
-              <li onClick={() => deleteBook(book._id)}>Delete book</li>
+              <li
+                className="p-[6px] cursor-pointer hover:text-gray-50 hover:bg-sky-500"
+                onClick={() => goAndUpdateBook(book._id)}
+              >
+                Edit book
+              </li>
+              <li
+                className="p-[6px] cursor-pointer hover:text-gray-50 hover:bg-sky-500"
+                onClick={() => deleteBook(book._id)}
+              >
+                Delete book
+              </li>
             </ul>
           </div>
         </div>

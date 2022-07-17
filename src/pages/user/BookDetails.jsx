@@ -87,7 +87,7 @@ const BookDetails = () => {
                     {bookData.quantity !== 0 ? (
                       <button
                         onClick={sentRequest}
-                        className="w-[50%] py-[6px] px-[12px] bg-cyan-600 text-gray-50 rounded"
+                        className="w-[50%] py-[6px] px-[12px] bg-sky-500 text-gray-50 rounded"
                       >
                         Send Request
                       </button>
@@ -99,13 +99,12 @@ const BookDetails = () => {
                   <button
                     disabled
                     onClick={sentRequest}
-                    className="w-[50%] py-[6px] px-[12px] bg-cyan-600 text-gray-50 rounded"
+                    className="w-[50%] cusror-no-drop py-[6px] px-[12px] bg-gray-200 text-gray-600 rounded"
                   >
                     Sent
                   </button>
                 )}
               </>
-             
             </div>
           )}
 
